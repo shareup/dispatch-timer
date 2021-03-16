@@ -91,13 +91,6 @@ private extension DispatchTimer {
     }
 }
 
-private extension DispatchTime {
-    static func < (lhs: DispatchTime, rhs: Optional<DispatchTime>) -> Bool {
-        guard let rhs = rhs else { return true }
-        return lhs < rhs
-    }
-}
-
 private func oneTenthOfOneThousand(of amount: Int) -> Int {
     return Int((Double(amount * 1000) * 0.1).rounded())
 }
