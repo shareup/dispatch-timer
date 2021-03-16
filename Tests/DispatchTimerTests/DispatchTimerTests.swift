@@ -5,7 +5,7 @@ final class DispatchTimerTests: XCTestCase {
     func testNonRepeatingTimer() throws {
         let ex = expectation(description: "Should have fired timer")
         let timer = DispatchTimer(.milliseconds(50), block: { ex.fulfill() })
-        wait(for: [ex], timeout: 0.1)
+        wait(for: [ex], timeout: 0.2)
         timer.invalidate()
     }
 
@@ -18,7 +18,7 @@ final class DispatchTimerTests: XCTestCase {
             repeat: true,
             block: { ex.fulfill() }
         )
-        wait(for: [ex], timeout: 0.2)
+        wait(for: [ex], timeout: 0.4)
         timer.invalidate()
     }
 
@@ -30,7 +30,7 @@ final class DispatchTimerTests: XCTestCase {
             block: { ex.fulfill() }
         )
         XCTAssertEqual(timeToFire, timer.nextDeadline)
-        wait(for: [ex], timeout: 0.1)
+        wait(for: [ex], timeout: 0.2)
         timer.invalidate()
     }
 
@@ -51,7 +51,7 @@ final class DispatchTimerTests: XCTestCase {
             block: { ex.fulfill() }
         )
         XCTAssertEqual(timeToFire, timer.nextDeadline)
-        wait(for: [ex], timeout: 0.04)
+        wait(for: [ex], timeout: 0.1)
         timer.invalidate()
     }
 
