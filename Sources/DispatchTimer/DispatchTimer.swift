@@ -1,7 +1,7 @@
 import Foundation
 import Synchronized
 
-class DispatchTimer {
+public class DispatchTimer {
     private let source: DispatchSourceTimer
     private let block: () -> Void
     private let lock = Lock()
