@@ -10,6 +10,10 @@ let package = Package(
         .library(
             name: "DispatchTimer",
             targets: ["DispatchTimer"]),
+        .library(
+            name: "DispatchTimerDynamic",
+            type: .dynamic,
+            targets: ["DispatchTimer"]),
     ],
     dependencies: [
         .package(
