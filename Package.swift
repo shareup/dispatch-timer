@@ -12,12 +12,17 @@ let package = Package(
             targets: ["DispatchTimer"]),
     ],
     dependencies: [
-        .package(name: "Synchronized", url: "https://github.com/shareup/synchronized.git", from: "2.1.0"),
+        .package(
+            name: "Synchronized",
+            url: "https://github.com/shareup/synchronized.git",
+            from: "2.3.0"),
     ],
     targets: [
         .target(
             name: "DispatchTimer",
-            dependencies: ["Synchronized"]),
+            dependencies: [
+                .product(name: "SynchronizedDynamic", package: "Synchronized")
+            ]),
         .testTarget(
             name: "DispatchTimerTests",
             dependencies: ["DispatchTimer"]),
