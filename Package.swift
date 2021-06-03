@@ -9,24 +9,16 @@ let package = Package(
     products: [
         .library(
             name: "DispatchTimer",
-            targets: ["DispatchTimer"]),
-        .library(
-            name: "DispatchTimerDynamic",
-            type: .dynamic,
-            targets: ["DispatchTimer"]),
-    ],
+            targets: ["DispatchTimer"])],
     dependencies: [
         .package(
             name: "Synchronized",
             url: "https://github.com/shareup/synchronized.git",
-            from: "2.3.0"),
-    ],
+            from: "3.0.0")],
     targets: [
         .target(
             name: "DispatchTimer",
-            dependencies: [
-                .product(name: "SynchronizedDynamic", package: "Synchronized")
-            ]),
+            dependencies: ["Synchronized"]),
         .testTarget(
             name: "DispatchTimerTests",
             dependencies: ["DispatchTimer"]),
