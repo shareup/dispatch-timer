@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.5
 import PackageDescription
 
 let package = Package(
@@ -14,7 +14,7 @@ let package = Package(
         .package(
             name: "Synchronized",
             url: "https://github.com/shareup/synchronized.git",
-            from: "3.0.0")],
+            from: "3.1.0")],
     targets: [
         .target(
             name: "DispatchTimer",
