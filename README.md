@@ -8,7 +8,7 @@ To use `DispatchTimer` with the Swift Package Manager, add a dependency to your 
 
 ```swift
 dependencies: [
-  package(name: "DispatchTimer", url: "https://github.com/shareup/dispatch-timer.git", from: "1.0.0"),
+  .package(url: "https://github.com/shareup/dispatch-timer.git", from: "2.0.0"),
 ],
 ```
 
