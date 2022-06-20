@@ -1,5 +1,5 @@
-import XCTest
 @testable import DispatchTimer
+import XCTest
 
 final class DispatchTimerTests: XCTestCase {
     func testNonRepeatingTimer() throws {

@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.6
 import PackageDescription
 
 let package = Package(
@@ -9,24 +9,30 @@ let package = Package(
     products: [
         .library(
             name: "DispatchTimer",
-            targets: ["DispatchTimer"])],
+            targets: ["DispatchTimer"]
+        ),
+    ],
     dependencies: [
         .package(
-            name: "Synchronized",
             url: "https://github.com/shareup/synchronized.git",
-            from: "3.1.0")],
+            from: "3.1.0"
+        ),
+    ],
     targets: [
         .target(
             name: "DispatchTimer",
-            dependencies: ["Synchronized"],
+            dependencies: [
+                .product(name: "Synchronized", package: "synchronized"),
+            ],
             swiftSettings: [
                 .unsafeFlags([
                     "-Xfrontend", "-warn-concurrency",
                 ]),
-            ]),
+            ]
+        ),
         .testTarget(
             name: "DispatchTimerTests",
-            dependencies: ["DispatchTimer"]),
+            dependencies: ["DispatchTimer"]
+        ),
     ]
 )
-
