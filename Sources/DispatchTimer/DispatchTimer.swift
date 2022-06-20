@@ -10,6 +10,7 @@ public final class DispatchTimer: Sendable {
     public var nextDeadline: DispatchTime {
         _nextDeadline.access { $0 }
     }
+
     private let _nextDeadline: Locked<DispatchTime>
 
     public init(
@@ -17,9 +18,9 @@ public final class DispatchTimer: Sendable {
         repeat shouldRepeat: Bool = false,
         block: @escaping @Sendable () -> Void
     ) {
-        self.source = DispatchSource.makeTimerSource()
+        source = DispatchSource.makeTimerSource()
         self.block = block
-        self.isRepeating = shouldRepeat
+        isRepeating = shouldRepeat
 
         let deadline = DispatchTime.now().advanced(by: interval)
         _nextDeadline = Locked(deadline)
@@ -46,9 +47,9 @@ public final class DispatchTimer: Sendable {
         fireAt deadline: DispatchTime,
         block: @escaping @Sendable () -> Void
     ) {
-        self.source = DispatchSource.makeTimerSource()
+        source = DispatchSource.makeTimerSource()
         self.block = block
-        self.isRepeating = false
+        isRepeating = false
         _nextDeadline = Locked(deadline)
 
         let interval = DispatchTime.now().distance(to: deadline)
@@ -75,13 +76,13 @@ public final class DispatchTimer: Sendable {
 private extension DispatchTimer {
     static func defaultTolerance(_ interval: DispatchTimeInterval) -> DispatchTimeInterval {
         switch interval {
-        case .seconds(let amount):
+        case let .seconds(amount):
             guard amount > 0 else { return .never }
             return .milliseconds(oneTenthOfOneThousand(of: amount))
-        case .milliseconds(let amount):
+        case let .milliseconds(amount):
             guard amount > 0 else { return .never }
             return .microseconds(oneTenthOfOneThousand(of: amount))
-        case .microseconds(let amount):
+        case let .microseconds(amount):
             guard amount > 0 else { return .never }
             return .nanoseconds(oneTenthOfOneThousand(of: amount))
         case .nanoseconds, .never:
@@ -98,5 +99,5 @@ private extension DispatchTimer {
 }
 
 private func oneTenthOfOneThousand(of amount: Int) -> Int {
-    return Int((Double(amount * 1000) * 0.1).rounded())
+    Int((Double(amount * 1000) * 0.1).rounded())
 }
