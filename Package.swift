@@ -24,11 +24,6 @@ let package = Package(
             dependencies: [
                 .product(name: "Synchronized", package: "synchronized"),
             ],
-            swiftSettings: [
-                .unsafeFlags([
-                    "-Xfrontend", "-warn-concurrency",
-                ]),
-            ]
         ),
         .testTarget(
             name: "DispatchTimerTests",
