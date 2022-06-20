@@ -23,7 +23,7 @@ let package = Package(
             name: "DispatchTimer",
             dependencies: [
                 .product(name: "Synchronized", package: "synchronized"),
-            ],
+            ]
         ),
         .testTarget(
             name: "DispatchTimerTests",
