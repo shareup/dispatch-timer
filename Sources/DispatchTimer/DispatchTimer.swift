@@ -1,27 +1,28 @@
-import Foundation
+@preconcurrency import Foundation
 import Synchronized
 
-public class DispatchTimer {
+public final class DispatchTimer: Sendable {
     private let source: DispatchSourceTimer
-    private let block: () -> Void
-    private let lock = Lock()
+    private let block: @Sendable () -> Void
 
     public let isRepeating: Bool
 
-    public var nextDeadline: DispatchTime { lock.locked { return _nextDeadline } }
-    private var _nextDeadline: DispatchTime
+    public var nextDeadline: DispatchTime {
+        _nextDeadline.access { $0 }
+    }
+    private let _nextDeadline: Locked<DispatchTime>
 
     public init(
         _ interval: DispatchTimeInterval,
         repeat shouldRepeat: Bool = false,
-        block: @escaping () -> Void
+        block: @escaping @Sendable () -> Void
     ) {
         self.source = DispatchSource.makeTimerSource()
         self.block = block
         self.isRepeating = shouldRepeat
 
         let deadline = DispatchTime.now().advanced(by: interval)
-        _nextDeadline = deadline
+        _nextDeadline = Locked(deadline)
         let repeating: DispatchTimeInterval = shouldRepeat ? interval : .never
         source.schedule(
             deadline: deadline,
@@ -34,16 +35,21 @@ public class DispatchTimer {
             self.fire()
 
             guard shouldRepeat else { return }
-            self.lock.locked { self._nextDeadline = DispatchTime.now().advanced(by: interval) }
+            self._nextDeadline.access {
+                $0 = DispatchTime.now().advanced(by: interval)
+            }
         }
         source.activate()
     }
 
-    public init(fireAt deadline: DispatchTime, block: @escaping () -> Void) {
+    public init(
+        fireAt deadline: DispatchTime,
+        block: @escaping @Sendable () -> Void
+    ) {
         self.source = DispatchSource.makeTimerSource()
         self.block = block
         self.isRepeating = false
-        _nextDeadline = deadline
+        _nextDeadline = Locked(deadline)
 
         let interval = DispatchTime.now().distance(to: deadline)
 

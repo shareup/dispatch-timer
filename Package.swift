@@ -18,7 +18,12 @@ let package = Package(
     targets: [
         .target(
             name: "DispatchTimer",
-            dependencies: ["Synchronized"]),
+            dependencies: ["Synchronized"],
+            swiftSettings: [
+                .unsafeFlags([
+                    "-Xfrontend", "-warn-concurrency",
+                ]),
+            ]),
         .testTarget(
             name: "DispatchTimerTests",
             dependencies: ["DispatchTimer"]),
