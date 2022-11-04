@@ -32,7 +32,7 @@ public final class DispatchTimer: Sendable {
         )
 
         source.setEventHandler { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.fire()
 
             guard shouldRepeat else { return }
