@@ -1,10 +1,10 @@
-// swift-tools-version:5.6
+// swift-tools-version:5.7
 import PackageDescription
 
 let package = Package(
     name: "DispatchTimer",
     platforms: [
-        .macOS(.v10_15), .iOS(.v13), .tvOS(.v13), .watchOS(.v5),
+        .macOS(.v11), .iOS(.v14), .tvOS(.v14), .watchOS(.v7),
     ],
     products: [
         .library(
@@ -15,7 +15,7 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/shareup/synchronized.git",
-            from: "3.1.0"
+            from: "4.0.0"
         ),
     ],
     targets: [
