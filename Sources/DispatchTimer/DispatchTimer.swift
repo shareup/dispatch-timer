@@ -73,7 +73,7 @@ public final class DispatchTimer: Sendable {
     }
 }
 
-private extension DispatchTimer {
+extension DispatchTimer {
     static func defaultTolerance(_ interval: DispatchTimeInterval) -> DispatchTimeInterval {
         switch interval {
         case let .seconds(amount):
@@ -85,13 +85,18 @@ private extension DispatchTimer {
         case let .microseconds(amount):
             guard amount > 0 else { return .never }
             return .nanoseconds(oneTenthOfOneThousand(of: amount))
-        case .nanoseconds, .never:
+        case let .nanoseconds(amount):
+            guard amount > 0 else { return .never }
+            return .nanoseconds(0)
+        case .never:
             return .never
         @unknown default:
             return .never
         }
     }
+}
 
+private extension DispatchTimer {
     func fire() {
         block()
         if !isRepeating { source.cancel() }

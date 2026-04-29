@@ -55,11 +55,49 @@ final class DispatchTimerTests: XCTestCase {
         timer.invalidate()
     }
 
+    func testDefaultToleranceForPositiveNanosecondsIsZero() throws {
+        XCTAssertEqual(
+            DispatchTimer.defaultTolerance(.nanoseconds(1)),
+            .nanoseconds(0)
+        )
+        XCTAssertEqual(
+            DispatchTimer.defaultTolerance(.nanoseconds(50_000_000)),
+            .nanoseconds(0)
+        )
+    }
+
+    func testDefaultToleranceForNonPositiveNanosecondsIsNever() throws {
+        XCTAssertEqual(
+            DispatchTimer.defaultTolerance(.nanoseconds(0)),
+            .never
+        )
+        XCTAssertEqual(
+            DispatchTimer.defaultTolerance(.nanoseconds(-1)),
+            .never
+        )
+    }
+
+    func testDefaultToleranceForNeverIsNever() throws {
+        XCTAssertEqual(
+            DispatchTimer.defaultTolerance(.never),
+            .never
+        )
+    }
+
     static var allTests = [
         ("testNonRepeatingTimer", testNonRepeatingTimer),
         ("testRepeatingTimer", testRepeatingTimer),
         ("testFireAtTimer", testFireAtTimer),
         ("testInvalidateCancelsTimer", testInvalidateCancelsTimer),
         ("testFireAtInPastFiresImmediately", testFireAtInPastFiresImmediately),
+        (
+            "testDefaultToleranceForPositiveNanosecondsIsZero",
+            testDefaultToleranceForPositiveNanosecondsIsZero
+        ),
+        (
+            "testDefaultToleranceForNonPositiveNanosecondsIsNever",
+            testDefaultToleranceForNonPositiveNanosecondsIsNever
+        ),
+        ("testDefaultToleranceForNeverIsNever", testDefaultToleranceForNeverIsNever),
     ]
 }
